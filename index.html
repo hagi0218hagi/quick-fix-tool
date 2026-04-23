@@ -546,6 +546,9 @@
         <button id="statsBtn" class="study-link" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);" title="統計を表示">
           <svg width="16" height="16" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
         </button>
+        <button id="backupBtn" class="study-link" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);" title="日付入りバックアップを作成">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </button>
         <button id="importCsvBtn" class="study-link" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);" title="CSVからインポート">
           <svg width="16" height="16" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         </button>
@@ -1217,6 +1220,23 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
+    // Backup Logic
+    const backupBtn = document.getElementById('backupBtn');
+    backupBtn.addEventListener('click', () => {
+      if (snippetsData.length === 0) return;
+      
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const filename = `snippets_backup_${yyyy}${mm}${dd}.json`;
+      
+      const jsonString = JSON.stringify(snippetsData, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      triggerDownload(blob, filename);
+      showToast('バックアップを作成しました');
+    });
 
     // Statistics Modal Logic
     const statsBtn = document.getElementById('statsBtn');
