@@ -434,7 +434,14 @@
     "id": 69,
     "category": "SQL構文集",
     "title": "LIKE演算子",
-    "content": "文字列の「あいまい検索」SELECT * \nFROM テーブル名\nWHERE 列名 LIKE 'パターン'WHERE 名前 LIKE '田中%'\n\n👉 「田中」で始まるデータ\n（田中太郎、田中花子 など）\n\nWHERE 名前 LIKE '%田中%'\n\n👉 「田中」を含むデータ\n（山田田中、田中一郎 など）",
+    "content": "文字列の「あいまい検索」SELECT * \nFROM テーブル名\nWHERE 列名 LIKE 'パターン'WHERE 名前 LIKE '田中%'\n\n👉 「田中」で始まるデータ（田中太郎、田中花子 など）\n\nWHERE 名前 LIKE '%田中%'\n\n👉 「田中」を含むデータ（山田田中、田中一郎 など）",
+    "tags": []
+  },
+  {
+    "id": 70,
+    "category": "SQL構文集",
+    "title": "比較演算子",
+    "content": "2つの値を比べて、条件が正しいか（真・偽）を判断する記号演算子\t\n意味\t例\t結果\n=\t等しい\t5 = 5\ttrue\n!= または <>\t等しくない\t5 != 3\ttrue\n>\tより大きい\t5 > 3\ttrue\n<\tより小さい\t3 < 5\ttrue\n>=\t以上\t5 >= 5\ttrue\n<=\t以下\t3 <= 5\t\ntrueSELECT *FROM 社員WHERE 年齢 >= 30;\n\n👉 「年齢が30以上の人」を抽出",
     "tags": []
   }
 ]
