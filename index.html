@@ -1095,27 +1095,47 @@
           return;
         }
 
-        // Merge logic: Add new ones, generate new IDs
-        let currentMaxId = snippetsData.length > 0 ? Math.max(...snippetsData.map(s => s.id)) : 0;
-        const newData = [...snippetsData];
+        // 重複を避けるための選択
+        const isOverwrite = confirm(`【インポートの確認】\n\n「OK」：既存のデータをすべて消して、このファイルの内容に「上書き（置き換え）」します。\n「キャンセル」：今のリストの末尾に「追加」します。`);
 
-        importedData.forEach(item => {
-          currentMaxId++;
-          newData.push({
-            id: currentMaxId,
+        let newData;
+        if (isOverwrite) {
+          // 置き換え（上書き）モード
+          newData = importedData.map(item => ({
+            id: parseInt(item.id, 10) || 0,
             category: item.category || '未分類',
             title: item.title || '無題',
             content: item.content || '',
-            tags: item.tags ? item.tags.split('|').filter(t => t !== '') : []
+            tags: item.tags ? item.tags.split('|').map(t => t.trim()).filter(t => t !== '') : []
+          }));
+          
+          // IDがない場合は自動で振る
+          let nextId = Math.max(0, ...newData.map(s => s.id)) + 1;
+          newData = newData.map(s => s.id === 0 ? { ...s, id: nextId++ } : s);
+        } else {
+          // 追加モード
+          let currentMaxId = snippetsData.length > 0 ? Math.max(...snippetsData.map(s => s.id)) : 0;
+          newData = [...snippetsData];
+
+          importedData.forEach(item => {
+            currentMaxId++;
+            newData.push({
+              id: currentMaxId,
+              category: item.category || '未分類',
+              title: item.title || '無題',
+              content: item.content || '',
+              tags: item.tags ? item.tags.split('|').map(t => t.trim()).filter(t => t !== '') : []
+            });
           });
-        });
+        }
 
         const success = await saveData(newData);
         if (success) {
           snippetsData = newData;
           renderTabs();
           renderSnippets();
-          showToast(`${importedData.length}件のスニペットを追加しました`);
+          const modeMsg = isOverwrite ? '置き換えました' : '追加しました';
+          showToast(`${importedData.length}件のデータを${modeMsg}`);
         }
         
         csvFileInput.value = ''; // Reset input
