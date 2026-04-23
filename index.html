@@ -477,6 +477,53 @@
       to { opacity: 0; }
     }
 
+    /* Tags */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .tag-chip {
+      font-size: 0.65rem;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      opacity: 0.8;
+    }
+
+    /* Statistics Chart */
+    .stats-bar-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .stats-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .stats-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+    }
+    .stats-bar-bg {
+      background: var(--bg-color);
+      height: 12px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .stats-bar-fill {
+      background: var(--primary-color);
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease-out;
+    }
+
     /* SVGs */
     svg {
       fill: none;
@@ -496,13 +543,19 @@
         QuickSnippets
       </h1>
       <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <button id="statsBtn" class="study-link" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);" title="統計を表示">
+          <svg width="16" height="16" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        </button>
+        <button id="exportCsvBtn" class="study-link" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);" title="CSVでエクスポート">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </button>
         <button id="linkFileBtn" class="study-link" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);" title="ローカルのsnippets.jsonと直接連携します">
           <svg width="16" height="16" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-          <span id="linkFileStatus">ファイル連携</span>
+          <span id="linkFileStatus" class="hide-mobile">連携</span>
         </button>
         <a href="flashcard.html" class="study-link">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          学習モード
+          <span class="hide-mobile">学習モード</span>
         </a>
       </div>
     </div>
@@ -553,6 +606,10 @@
           <label style="display:block; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.3rem;">内容</label>
           <textarea id="inputContent" class="search-input" required placeholder="コードや説明を入力..." style="resize:vertical; min-height:100px; font-family:monospace; padding:0.5rem;"></textarea>
         </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display:block; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.3rem;">タグ（カンマ区切りで複数可能）</label>
+          <input type="text" id="inputTags" class="search-input" placeholder="例: 重要, あとで見る">
+        </div>
         <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
           <button type="button" id="cancelModalBtn" style="padding:0.5rem 1rem; border-radius:var(--radius); border:1px solid var(--border-color); background:var(--bg-color); color:var(--text-color); cursor:pointer;">キャンセル</button>
           <button type="submit" style="padding:0.5rem 1rem; border-radius:var(--radius); border:none; background:var(--primary-color); color:white; font-weight:500; cursor:pointer;">保存してDL</button>
@@ -582,6 +639,10 @@
           <label style="display:block; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.3rem;">内容</label>
           <textarea id="editContent" class="search-input" required style="resize:vertical; min-height:100px; font-family:monospace; padding:0.5rem;"></textarea>
         </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display:block; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.3rem;">タグ（カンマ区切り）</label>
+          <input type="text" id="editTags" class="search-input" placeholder="例: 重要, 復習">
+        </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
           <button type="button" id="deleteBtn" style="padding:0.5rem 1rem; border-radius:var(--radius); border:1px solid #ef4444; background:none; color:#ef4444; cursor:pointer;">削除</button>
           <div style="display:flex; gap:0.5rem;">
@@ -592,6 +653,26 @@
       </form>
     </div>
   </div>
+
+  <!-- Stats Modal -->
+  <div class="modal-overlay" id="statsModal">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <div style="font-size:1.1rem; font-weight:600;">登録状況の統計</div>
+        <button id="closeStatsModalBtn" style="background:none; border:none; cursor:pointer; color:var(--text-muted);"><svg width="20" height="20" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+      </div>
+      <div id="statsPlaceholder"></div>
+      <div style="display:flex; justify-content:center; margin-top:1.5rem;">
+        <button id="closeStatsModalBtn2" style="padding:0.5rem 1.5rem; border-radius:var(--radius); border:none; background:var(--primary-color); color:white; font-weight:500; cursor:pointer;">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @media (max-width: 600px) {
+      .hide-mobile { display: none; }
+    }
+  </style>
 
   <script>
     /**
@@ -695,6 +776,10 @@
         const card = document.createElement('div');
         card.className = 'snippet-card';
         
+        const tagsHTML = snippet.tags && snippet.tags.length > 0 
+          ? `<div class="tag-container">${snippet.tags.map(t => `<span class="tag-chip">${escapeHTML(t)}</span>`).join('')}</div>`
+          : '';
+
         card.innerHTML = `
           <div class="snippet-header">
             <div style="display:flex; flex-direction:column; gap:0.25rem;">
@@ -705,6 +790,7 @@
                   ${editIconSvg}
                 </button>
               </div>
+              ${tagsHTML}
             </div>
           </div>
           <div class="snippet-content-wrapper">
@@ -739,6 +825,7 @@
       document.getElementById('editCategory').value = snippet.category;
       document.getElementById('editTitle').value = snippet.title;
       document.getElementById('editContent').value = snippet.content;
+      document.getElementById('editTags').value = snippet.tags ? snippet.tags.join(', ') : '';
 
       const categories = getCategories().filter(c => c !== 'すべて');
       categoryOptions.innerHTML = categories.map(c => `<option value="${escapeHTML(c)}">`).join('');
@@ -895,10 +982,13 @@
       const category = document.getElementById('inputCategory').value.trim();
       const title = document.getElementById('inputTitle').value.trim();
       const content = document.getElementById('inputContent').value;
+      const tagsRaw = document.getElementById('inputTags').value;
+      const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t !== '') : [];
+      
       if (!category || !title || !content) return;
 
       const newId = snippetsData.length > 0 ? Math.max(...snippetsData.map(s => s.id)) + 1 : 1;
-      const newSnippet = { id: newId, category, title, content };
+      const newSnippet = { id: newId, category, title, content, tags };
       const updatedData = [...snippetsData, newSnippet];
 
       await saveData(updatedData);
@@ -920,9 +1010,11 @@
       const category = document.getElementById('editCategory').value.trim();
       const title = document.getElementById('editTitle').value.trim();
       const content = document.getElementById('editContent').value;
+      const tagsRaw = document.getElementById('editTags').value;
+      const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t !== '') : [];
 
       const updatedData = snippetsData.map(s => 
-        s.id === id ? { ...s, category, title, content } : s
+        s.id === id ? { ...s, category, title, content, tags } : s
       );
 
       await saveData(updatedData);
@@ -951,15 +1043,82 @@
     function downloadAsJson(data) {
       const jsonString = JSON.stringify(data, null, 2);
       const blob = new Blob([jsonString], { type: 'application/json' });
+      triggerDownload(blob, 'snippets.json');
+    }
+
+    // Export CSV
+    const exportCsvBtn = document.getElementById('exportCsvBtn');
+    exportCsvBtn.addEventListener('click', () => {
+      if (snippetsData.length === 0) return;
+      
+      const headers = ['id', 'category', 'title', 'content', 'tags'];
+      const csvRows = [headers.join(',')];
+
+      snippetsData.forEach(s => {
+        const row = [
+          s.id,
+          `"${s.category.replace(/"/g, '""')}"`,
+          `"${s.title.replace(/"/g, '""')}"`,
+          `"${s.content.replace(/"/g, '""')}"`,
+          `"${(s.tags || []).join('|').replace(/"/g, '""')}"`
+        ];
+        csvRows.push(row.join(','));
+      });
+
+      const csvString = csvRows.join('\n');
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf8;' });
+      triggerDownload(blob, 'snippets_export.csv');
+      showToast('CSVを書き出しました');
+    });
+
+    function triggerDownload(blob, filename) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'snippets.json';
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
+    // Statistics Modal Logic
+    const statsBtn = document.getElementById('statsBtn');
+    const statsModal = document.getElementById('statsModal');
+    const closeStatsModalBtn = document.getElementById('closeStatsModalBtn');
+    const closeStatsModalBtn2 = document.getElementById('closeStatsModalBtn2');
+    const statsPlaceholder = document.getElementById('statsPlaceholder');
+
+    statsBtn.addEventListener('click', () => {
+      const categories = [...new Set(snippetsData.map(s => s.category))];
+      const counts = categories.map(cat => ({
+        name: cat,
+        count: snippetsData.filter(s => s.category === cat).length
+      })).sort((a, b) => b.count - a.count);
+
+      const maxCount = Math.max(...counts.map(c => c.count));
+
+      let statsHTML = '<div class="stats-bar-container">';
+      counts.forEach(c => {
+        const percentage = (c.count / maxCount) * 100;
+        statsHTML += `
+          <div class="stats-row">
+            <div class="stats-label">
+              <span>${escapeHTML(c.name)}</span>
+              <span style="color:var(--primary-color); font-weight:bold;">${c.count} 件</span>
+            </div>
+            <div class="stats-bar-bg"><div class="stats-bar-fill" style="width: ${percentage}%"></div></div>
+          </div>
+        `;
+      });
+      statsHTML += '</div>';
+      
+      statsPlaceholder.innerHTML = statsHTML;
+      statsModal.classList.add('active');
+    });
+
+    closeStatsModalBtn.addEventListener('click', () => statsModal.classList.remove('active'));
+    closeStatsModalBtn2.addEventListener('click', () => statsModal.classList.remove('active'));
 
     // Initialize App
     async function init() {
