@@ -352,5 +352,47 @@
     "category": "IT用語集",
     "title": "index",
     "content": "「一覧」や「最初のページ」という意味です。Webではトップページ（最初に表示されるページ）として使われる名前です。"
+  },
+  {
+    "id": 60,
+    "category": "AWS AI Practitioner",
+    "title": "Amazon Bedrock",
+    "content": "基盤モデル (FM) を API を通を通じて利用できるようにするフルマネージド型サービス。サーバーインフラを管理することなく、生成 AI アプリケーションを構築・拡張できるのが特徴。"
+  },
+  {
+    "id": 61,
+    "category": "AWS AI Practitioner",
+    "title": "Amazon SageMaker",
+    "content": "機械学習 (ML) モデルを迅速に構築、トレーニング、デプロイするための完全なマネージド型サービス。データサイエンティストや開発者向けの包括的なツール群を提供。"
+  },
+  {
+    "id": 62,
+    "category": "AWS AI Practitioner",
+    "title": "Amazon Q",
+    "content": "仕事に特化した新しいタイプの生成 AI 搭載アシスタント。AWS 上での開発、データ分析、コンテンツ作成などをサポートし、企業のデータに基づいた回答も可能。"
+  },
+  {
+    "id": 63,
+    "category": "AWS AI Practitioner",
+    "title": "責任あるAI (Responsible AI)",
+    "content": "AI システムを安全、確実、公平な方法で設計・提供するための概念。公平性、説明責任、透明性、プライバシー、セキュリティなどが重要な柱となる。"
+  },
+  {
+    "id": 64,
+    "category": "AWS AI Practitioner",
+    "title": "LLM (大規模言語モデル)",
+    "content": "膨大なテキストデータで学習された、高度な自然言語処理能力を持つ AI モデル。文章生成、要約、翻訳、プログラミングコードの作成などが可能。"
+  },
+  {
+    "id": 65,
+    "category": "AWS AI Practitioner",
+    "title": "トークン (Token)",
+    "content": "LLM がテキストを処理する際の基本単位。単語の一部であったり、句読点であったりする。生成 AI サービスの料金計算や、モデルの入力制限（コンテキストウィンドウ）の単位として使われる。"
+  },
+  {
+    "id": 66,
+    "category": "AWS AI Practitioner",
+    "title": "ハルシネーション (Hallucination)",
+    "content": "AI が事実に基づかない、もっともらしい嘘（虚偽の情報）を生成する現象。日本語では「幻覚」とも呼ばれる。"
   }
 ]
